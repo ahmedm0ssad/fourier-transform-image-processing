@@ -20,12 +20,17 @@ This project demonstrates various applications of the Fourier Transform in digit
   - Gaussian filters
 - **Interactive visualizations** using Matplotlib
 - **Comprehensive comparisons** between different filtering approaches
+- **Dual Implementation**:
+  - Interactive Jupyter notebook for learning and experimentation
+  - Standalone Python module (`FourierImageProcessor` class) for integration
+- **Professional Documentation** with type hints and comprehensive docstrings
 
 ## 📁 Project Structure
 
 ```
 Morphology/
-├── Forrier transform.ipynb    # Main Jupyter notebook with implementations
+├── Forrier transform.ipynb    # Interactive Jupyter notebook with step-by-step implementation
+├── fourier_transform.py       # Standalone Python module with FourierImageProcessor class
 ├── README.md                  # Project documentation
 ├── requirements.txt           # Python dependencies
 ├── .gitignore                # Git ignore rules
@@ -50,32 +55,86 @@ Morphology/
    jupyter notebook
    ```
 
-4. **Open `Forrier transform.ipynb`** and run the cells sequentially.
+4. **Open and run the project**:
+   - **Jupyter Notebook**: `jupyter notebook` → Open `Forrier transform.ipynb`
+   - **Python Script**: `python fourier_transform.py`
 
 ## 📊 Usage
+
+### Option 1: Interactive Jupyter Notebook
+Open `Forrier transform.ipynb` for step-by-step interactive exploration with detailed explanations.
+
+### Option 2: Python Module
+Use the `FourierImageProcessor` class for programmatic access:
+
+```python
+from fourier_transform import FourierImageProcessor
+
+# Initialize processor
+processor = FourierImageProcessor()
+
+# Load and process an image
+image = processor.load_image("image_url_or_path")
+dft_shifted = processor.apply_fourier_transform(image)
+```
 
 ### Basic Fourier Transform
 ```python
 # Load and process an image
-image = load_image(image_url)
-dft_shifted = apply_fourier_transform(image)
+image = processor.load_image(image_url)
+dft_shifted = processor.apply_fourier_transform(image)
+
+# Get magnitude spectrum for visualization
+magnitude_spectrum = processor.get_magnitude_spectrum(dft_shifted)
+processor.show_image(magnitude_spectrum, "Magnitude Spectrum")
 ```
 
 ### Apply Frequency Filters
 ```python
 # Create and apply a low-pass filter
-lowpass_filter = create_filter(image.shape, 'lowpass', d0=50)
-filtered_image = inverse_fourier_transform(dft_shifted * lowpass_filter)
+filtered_image, filter_mask = processor.apply_frequency_filter(
+    image, 'gaussian', cut_off_frequency=50, highpass=False
+)
+
+# Apply high-pass filter
+filtered_image, filter_mask = processor.apply_frequency_filter(
+    image, 'butterworth', cut_off_frequency=30, highpass=True, order=2
+)
 ```
 
 ### Compare Filter Types
 ```python
 # Compare Ideal, Butterworth, and Gaussian filters
 filter_types = ['ideal', 'butterworth', 'gaussian']
-for filter_type in filter_types:
-    filter_mask = create_filter(image.shape, filter_type, cut_off_frequency=50)
-    # Process and display results
+results = processor.compare_filters(image, filter_types, cut_off_frequency=50)
+processor.plot_comparison(image, results, "Low-pass Filters")
 ```
+
+## 🐍 Python Module Features
+
+The `fourier_transform.py` module provides a complete `FourierImageProcessor` class with:
+
+### Core Methods:
+- `load_image(url)` - Load images from URLs
+- `load_local_image(path)` - Load images from local paths
+- `apply_fourier_transform(image)` - Compute DFT with frequency shifting
+- `inverse_fourier_transform(dft)` - Reconstruct images from frequency domain
+- `get_magnitude_spectrum(dft)` - Visualize frequency content
+
+### Filter Creation:
+- `create_filter(shape, type, cutoff, **kwargs)` - Generate various filter types
+- `apply_frequency_filter(image, type, cutoff)` - Apply filters in one step
+- `compare_filters(image, types, cutoff)` - Compare multiple filter types
+
+### Visualization:
+- `show_image(image, title)` - Display images with matplotlib
+- `plot_comparison(image, results, prefix)` - Side-by-side filter comparisons
+
+### Supported Filter Types:
+- **Ideal**: Sharp cutoff (may cause ringing)
+- **Butterworth**: Smooth transition with configurable order
+- **Gaussian**: Smoothest transition, no ringing artifacts
+- **Band-pass/Band-stop**: Frequency range isolation/removal
 
 ## 🔍 Key Concepts Covered
 
