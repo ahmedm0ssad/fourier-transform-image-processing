@@ -1,0 +1,24 @@
+# Dependencies for Fourier Transform Image Processing Project
+
+# Core scientific computing libraries
+numpy>=1.21.0
+matplotlib>=3.5.0
+
+# Computer vision and image processing
+opencv-python>=4.5.0
+
+# Jupyter notebook environment
+jupyter>=1.0.0
+ipython>=8.0.0
+
+# Additional utilities
+urllib3>=1.26.0
+
+# Optional: For enhanced plotting and visualization
+seaborn>=0.11.0
+pillow>=8.3.0
+
+# Development and code quality (optional)
+# black>=22.0.0
+# flake8>=4.0.0
+# pytest>=7.0.0
