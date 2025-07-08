@@ -1,5 +1,4 @@
 # Fourier Transform Image Processing
-![Uploading image.png…]()
 
 A comprehensive implementation of Fourier Transform techniques for image processing using Python, OpenCV, and NumPy.
 
